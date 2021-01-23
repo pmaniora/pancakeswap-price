@@ -1,21 +1,21 @@
-# uniswap-price [![npm version](https://badge.fury.io/js/uniswap-price.svg)](https://badge.fury.io/js/uniswap-price)
-get token price from uniswap
+# pancakeswap-price
+get token price from pancakeswap
 
 ## Install 
 ```
-npm i --save uniswap-price
+npm i --save github:pmaniora/pancakeswap-price
 ```
 
 ## Usage
 
-Note: WETH address is `0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2`
+Note: WBNB address is `0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c`
 
-- **getMidPrice(sourceToken, sourceDecimal, destToken, destDecimal, chainId, infuraKey)**: return the reference price
-- **getExecutionPrice(sourceToken, sourceDecimal, destToken, destDecimal, chainId, infuraKey)**: return the exact price for the trade with your specified amount
-- **getMidPriceViaETH(sourceToken, sourceDecimal, destToken, destDecimal, chainId, infuraKey)**: return the reference price using route via ETH
-- **getExecutionPriceViaETH(sourceToken, sourceDecimal, destToken, destDecimal, chainId, infuraKey)**: return the exact price for the trade with your specified amount using route via ETH
-- **getMidPriceViaExactToken(sourceToken, sourceDecimal, destToken, destDecimal, pivotToken, pivotTokenDecimal, chainId, infuraKey)**: return the reference price using route via ExactToken
-- **getExecutionPriceViaExactToken(sourceToken, sourceDecimal, destToken, destDecimal, pivotToken, pivotTokenDecimal, chainId, infuraKey)**: return the exact price for the trade with your specified amount using route via ExactToken
+- **getMidPrice(sourceToken, sourceDecimal, destToken, destDecimal, chainId)**: return the reference price
+- **getExecutionPrice(sourceToken, sourceDecimal, destToken, destDecimal, chainId)**: return the exact price for the trade with your specified amount
+- **getMidPriceViaETH(sourceToken, sourceDecimal, destToken, destDecimal, chainId)**: return the reference price using route via BNB
+- **getExecutionPriceViaETH(sourceToken, sourceDecimal, destToken, destDecimal, chainId)**: return the exact price for the trade with your specified amount using route via BNB
+- **getMidPriceViaExactToken(sourceToken, sourceDecimal, destToken, destDecimal, pivotToken, pivotTokenDecimal, chainId)**: return the reference price using route via ExactToken
+- **getExecutionPriceViaExactToken(sourceToken, sourceDecimal, destToken, destDecimal, pivotToken, pivotTokenDecimal, chainId)**: return the exact price for the trade with your specified amount using route via ExactToken
 
 ### Arguments
 - sourceToken: address of source token
@@ -24,31 +24,27 @@ Note: WETH address is `0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2`
 - destDecimal: decimal of destination token
 - pivotToken: the token used for routing
 - pivotTokenDecimal: decimal of the token used for routing
-- chainId: default 1 (Ethereum mainnet 1)
-- infuraKey: default empty means that we are using defaultProvider with limited request
+- chainId: default 56 (Binance Smart Chain mainnet 56)
+
 
 ```nodejs
-const uniswapPrice = require('uniswap-price')
+const pancakeswapPrice = require('pancakeswap-price')
 
  const main = async () => {
      let data
-     data = await uniswapPrice.getMidPrice("0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", 18, "0x6B175474E89094C44Da98b954EedeAC495271d0F", 18)
+     const CAKE = '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82'
+     const BUSD = '0xe9e7cea3dedca5984780bafc599bd69add087d56'
+
+     data = await pancakeswapPrice.getMidPrice(CAKE, 18, BUSD, 18)
      console.log(data)
 
-     data = await uniswapPrice.getExecutionPrice("0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", 18, "0x6B175474E89094C44Da98b954EedeAC495271d0F", 18, "1000000000000000000")
+     data = await pancakeswapPrice.getExecutionPrice(CAKE, 18, BUSD, 18, "1000000000000000000")
      console.log(data)
 
-data = await uniswapPrice.getMidPriceViaETH("0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", 6, "0x6B175474E89094C44Da98b954EedeAC495271d0F", 18)
+     data = await pancakeswapPrice.getMidPriceViaETH(CAKE, 18, BUSD, 18)
      console.log(data)
 
-     data = await uniswapPrice.getExecutionPriceViaETH("0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", 6, "0x6B175474E89094C44Da98b954EedeAC495271d0F", 18, "1000000000")
-     console.log(data)
-     
-     let USDC = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-         USDCDecimal = 6
-     // getMidPrice via USDC Token
-     // route: 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 -> USDC -> 0x6B175474E89094C44Da98b954EedeAC495271d0F
-     data = await uniswapPrice.getMidPriceViaExactToken("0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", 6, "0x6B175474E89094C44Da98b954EedeAC495271d0F", 18, USDC, USDCDecimal)
+     data = await pancakeswapPrice.getExecutionPriceViaETH(CAKE, 18, BUSD, 18, "1000000000000000000")
      console.log(data)
  }
 ```
