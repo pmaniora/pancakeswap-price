@@ -7,7 +7,7 @@
      Trade,
      TokenAmount,
      TradeType
- } = require('@uniswap/sdk')
+ } = require('@pancakeswap-libs/sdk')
  const {
      getNetwork
  } = require('@ethersproject/networks')
